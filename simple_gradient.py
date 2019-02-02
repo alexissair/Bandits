@@ -11,7 +11,6 @@ class SimpleGradient() :
         self.rewards = []
         self.actions = []
         self.calls = np.zeros(self.env.k)
-        self.mean_reward = np.zeros(self.env.k)
         return
     
     def pick_action(self):
@@ -39,3 +38,8 @@ class SimpleGradient() :
     
 
         
+if __name__ == "__main__":
+    env = KarmedBandits(k = 10, std = 4., min_value = 2, max_value = 30)
+    e = SimpleGradient(eps = 0.1, decay = 1., env = env)
+    e.train(100)
+    print(e.rewards)

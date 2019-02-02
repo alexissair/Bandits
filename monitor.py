@@ -1,5 +1,6 @@
 from epsgreedy import *
 from ucb import *
+from simple_gradient import *
 import matplotlib.pyplot as plt
 
 class Monitor() :
@@ -21,7 +22,7 @@ class Monitor() :
             cumreward  = np.cumsum(policy.rewards)
             plt.plot(range(self.n_episodes), cumreward, label = policy.name)
         plt.legend()
-        plt.title('Comparison of different policies.')
+        plt.title('Cumulative rewards of different policies.')
         plt.show()
         return
     
@@ -36,7 +37,7 @@ class Monitor() :
             cumreward  = np.cumsum(policy.rewards)
             plt.plot(range(self.n_episodes), opt_rewards - cumreward, label = policy.name)
         plt.legend()
-        plt.title('Comparison of different policies.')
+        plt.title('Regret for different policies.')
         plt.show()
         return
 
@@ -44,6 +45,7 @@ class Monitor() :
 if __name__ == "__main__":
     env = KarmedBandits(k = 30, std = 5., min_value = 2, max_value = 30)
     u= UCB(c = 1., env = env)
-    e = EpsGreedy(eps = 0.1, decay = 1.0, env = env)
-    monitor = Monitor(policies = [u, e], n_episodes = 50000)
+    sg = SimpleGradient(eps = 0.1, decay = 1.0, env = env)
+    e = EpsGreedy(eps = 0.9, decay = 0.9, env = env)
+    monitor = Monitor(policies = [u, e, sg], n_episodes = 50000)
     monitor.plot_regret()
