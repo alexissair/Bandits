@@ -1,0 +1,2 @@
+# Bandits
+Some bandits algo
